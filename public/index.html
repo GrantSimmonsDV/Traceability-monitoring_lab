@@ -29,7 +29,8 @@ function submitHandler(evt) {
         .then (res => {
             container.innerHTML = ''
             employeeInput.value = ''
-            res.data.forEach((employeeName) => {
+        
+        res.data.forEach((employeeName) => {
         container.innerHTML += `<p>${employeeName}</p>`
     })
 })

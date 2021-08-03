@@ -20,21 +20,21 @@ app.get('/', (req, res) => {
 
 app.post('/api/employee-list', (req,res) => {
     let {name} = req.body;
-
+console.log(name)
     const index = employees.findIndex((employee) => {
         return employee === name
     })
     try {
         if (index === -1 && name !== "") {
-          students.push(name);
+          employees.push(name);
           rollbar.info("An employee has been added")
-          res.status(200).send(students);
+          res.status(200).send(employees);
         } else if (name === "") {
             rollbar.error('Someone tried to enter a blank employee name')
           res.status(400).send("must provide a name");
         } else {
-            rollback.error('Someone tried to enter a dulpicate employee name')
-          res.status(400).send("that student already exists");
+            rollbar.error('Someone tried to enter a dulpicate employee name')
+          res.status(400).send("that employee already exists");
         }
       } catch (err) {
         rollbar.error(err)
