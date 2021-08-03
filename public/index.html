@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+</head>
+<body>
+    <h1>New Employees</h1>
+    <form>
+    <input type="text" placeholder="Enter new employee name..">
+    <button>Add to directory</button>
+</form>
+<section></section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+<script>
+const addForm = document.querySelector('form');
+const employeeInput = document.querySelector('input');
+const container = document.querySelector('section');
+
+function submitHandler(evt) {
+    evt.preventDefault();
+
+    axios
+        .post('/api/employee-list', {name: employeeInput.value})
+        .then (res => {
+            container.innerHTML = ''
+            employeeInput.value = ''
+            res.data.forEach((employeeName) => {
+        container.innerHTML += `<p>${employeeName}</p>`
+    })
+})
+.catch(err => {
+    employeeInput.value = ''
+
+    const notif = document.createElement('aside')
+    notif.innerHTML = `<p>${err.response.data}</p>
+    <button class="close">close</button>`
+    document.body.appendChild(notif)
+
+    document.querySelectorAll('.close').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.target.parentNode.remove()
+        })
+    })
+})
+        }
+
+        addForm.addEventListener('submit', submitHandler)
+</script>
+
+</body>
+</html>
